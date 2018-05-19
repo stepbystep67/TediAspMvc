@@ -10,21 +10,24 @@ namespace HelloWorldMvc.Controllers
     public class TeamController : Controller
     {
 
+        static PersonManager personManager;
+
         public TeamController()
         {
-            PersonManager.Load();
+            personManager = new PersonManager("TeamManager");
+            personManager.Load();
         }
 
         // GET: Team
         public ActionResult Index()
         {
-            return View(PersonManager.DefaultPersonList);
+            return View(personManager.PersonList);
         }
 
         // GET: Team/Details/{id}
         public ActionResult Details(int id)
         {
-            Person person = PersonManager.Search(id);
+            Person person = personManager.Search(id);
 
             return View(person);
         }
@@ -32,7 +35,7 @@ namespace HelloWorldMvc.Controllers
         // GET: Team/Member/{name}
         public ActionResult Member(string id)
         {
-            Person person = PersonManager.Search(id);
+            Person person = personManager.Search(id);
 
             return View("Details", person);
         }
@@ -50,8 +53,8 @@ namespace HelloWorldMvc.Controllers
             if (formResult.IsValid())
             {
                 formResult.Id = (PersonManager.DefaultPersonList.Max(p => p.Id) + 1);
-                PersonManager.DefaultPersonList.Add(formResult);
-                PersonManager.Save();
+                personManager.PersonList.Add(formResult);
+                personManager.Save();
                 return RedirectToAction("Index");
             }
 
@@ -61,7 +64,7 @@ namespace HelloWorldMvc.Controllers
         // GET: Team/Edit/{id}
         public ActionResult Edit(int id)
         {
-            Person person = PersonManager.Search(id);
+            Person person = personManager.Search(id);
 
             return View(person);
         }
@@ -70,13 +73,13 @@ namespace HelloWorldMvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(Person formResult)
         {
-            Person person = PersonManager.Search(formResult);
+            Person person = personManager.Search(formResult);
 
             if(formResult.IsValid() && person.IsRegistered())
             {
                 person.Name = formResult.Name;
                 person.Job = formResult.Job;
-                PersonManager.Save();
+                personManager.Save();
                 return RedirectToAction("Index");
             }
 
@@ -86,7 +89,7 @@ namespace HelloWorldMvc.Controllers
         // GET: Team/Delete/{id}
         public ActionResult Delete(int id)
         {
-            Person person = PersonManager.Search(id);
+            Person person = personManager.Search(id);
 
             return View(person);
         }
@@ -95,12 +98,12 @@ namespace HelloWorldMvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(Person formResult)
         {
-            Person person = PersonManager.Search(formResult);
+            Person person = personManager.Search(formResult);
 
             if (person.IsRegistered())
             {
-                PersonManager.DefaultPersonList.Remove(person);
-                PersonManager.Save();
+                personManager.PersonList.Remove(person);
+                personManager.Save();
                 return RedirectToAction("Index");
             }
 

@@ -12,18 +12,9 @@ namespace HelloWorldMvc.Models
 {
     public class PersonManager
     {
-        
-        public static string DefaultFileBin = "App_Data/PersonManager.bin";
 
-        public static string DefaultFileXml = "App_Data/PersonManager.xml";
-        
-        public static List<string> Personlist { get; protected set; } = new List<string>()
-        {
-            "pierre",
-            "paul",
-            "jacques",
-        };
-
+        public static string DefaultFileName = "PersonManager";
+              
         public static List<Person> DefaultPersonList { get; protected set; } = new List<Person>()
         {
             new Person(1, "Didier", "Responsable de formation"),
@@ -33,125 +24,164 @@ namespace HelloWorldMvc.Models
         };
 
 
+        #region Properties
+
         string fileName;
 
-        string binPath;
+        public string BinPath { get; protected set; }
 
-        string xmlPath;
+        public string XmlPath { get; protected set; }
 
-        bool binExists;
+        public bool BinExists { get; protected set; }
 
-        bool xmlExists;
+        public bool XmlExists { get; protected set; }
 
-        public List<Person> personList;
+        public List<Person> PersonList { get; protected set; }
 
-        public PersonManager() : this(DefaultFileBin)
+        #endregion
+
+        #region Constructors
+
+        public PersonManager() : this(DefaultFileName)
         {
             
         }
 
         public PersonManager(string _file)
         {
-            if(HttpContext.Current != null)
+            if(String.IsNullOrEmpty(_file))
             {
-                fileName = HttpContext.Current.Server.MapPath(DefaultFileXml);
+                _file = DefaultFileName;
+            }
+
+            _file = Path.Combine("App_Data", _file);
+
+            if (HttpContext.Current != null)
+            {
+                fileName = HttpContext.Current.Server.MapPath(_file);
             }
             else
             {
-                fileName = _file;
+                fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Tedi", _file);
             }
 
-            binPath = fileName + ".bin";
-            xmlPath = fileName + ".xml";
+            BinPath = Path.Combine("App_Data", fileName + ".bin");
+            XmlPath = Path.Combine("App_Data", fileName + ".xml");
 
-            binExists = File.Exists(binPath);
-            xmlExists = File.Exists(xmlPath);
+            BinExists = File.Exists(BinPath);
+            XmlExists = File.Exists(XmlPath);
 
-            personList = DefaultPersonList;
+            PersonList = DefaultPersonList;
         }
-        
+
+        #endregion
+
+        #region Search
+
         public Person Search(int id)
         {
-            Person member = DefaultPersonList.FirstOrDefault(item => item.Id == id);
+            Person member = PersonList.FirstOrDefault(item => item.Id == id);
 
             return (member != default(Person)) ? member : new Person();
         }
 
-        public static Person Search(string name)
+        public Person Search(string name)
         {
-            Person member = DefaultPersonList.FirstOrDefault(item => item.Name.ToLower() == name.ToLower());
+            Person member = PersonList.FirstOrDefault(item => item.Name.ToLower() == name.ToLower());
 
             return (member != default(Person)) ? member : new Person();
         }
 
-        public static Person Search(Person p)
+        public Person Search(Person p)
         {
             return Search(p.Id);
         }
 
-        public static List<Person> SearchJob(string job)
+        public List<Person> SearchJob(string job)
         {
-            return DefaultPersonList.FindAll(item => item.Job.ToLower() == job.ToLower());
+            return PersonList.FindAll(item => item.Job.ToLower() == job.ToLower());
         }
 
+        #endregion
 
-        public static void Save()
-        {
-            
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(HttpContext.Current.Server.MapPath(DefaultFileBin), FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, DefaultPersonList);
-            stream.Close();
-            SaveXml();
-        }
+        #region Binary Serialization
 
-        public static void Load()
+        public void Save()
         {
             try
             {
-                if(File.Exists(HttpContext.Current.Server.MapPath(DefaultFileBin)))
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(BinPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                formatter.Serialize(stream, PersonList);
+                stream.Close();
+                SaveXml();
+            }
+            catch
+            {
+
+            }
+            
+        }
+
+        public void Load()
+        {
+            try
+            {
+                if(BinExists)
                 {
                     IFormatter formatter = new BinaryFormatter();
-                    Stream stream = new FileStream(HttpContext.Current.Server.MapPath(DefaultFileBin), FileMode.Open, FileAccess.Read, FileShare.Read);
+                    Stream stream = new FileStream(BinPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                     List<Person> loaded = formatter.Deserialize(stream) as List<Person>;
                     stream.Close();
                     if(loaded != null)
                     {
-                        DefaultPersonList = loaded;
+                        PersonList = loaded;
                     }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region XML Serialization
+
+        public void SaveXml()
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
+
+                using (StreamWriter writer = new StreamWriter(XmlPath))
+                {
+                    serializer.Serialize(writer, PersonList);
                 }
             }
             catch
             {
 
             }
+            
         }
 
-        public static void SaveXml()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
-
-            using (StreamWriter writer = new StreamWriter(HttpContext.Current.Server.MapPath(DefaultFileXml)))
-            {
-                serializer.Serialize(writer, DefaultPersonList);
-            }
-        }
-
-        public static void LoadXml()
+        public void LoadXml()
         {
             try
             {
-                if(File.Exists(HttpContext.Current.Server.MapPath(DefaultFileXml)))
+                if(XmlExists)
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
 
-                    using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(DefaultFileXml)))
+                    using (StreamReader reader = new StreamReader(XmlPath))
                     {
                         List<Person> loaded = serializer.Deserialize(reader) as List<Person>;
 
                         if (loaded != null)
                         {
-                            DefaultPersonList = loaded;
+                            PersonList = loaded;
                         }
                     }
                 }
@@ -162,6 +192,8 @@ namespace HelloWorldMvc.Models
 
             }
         }
+
+        #endregion
 
     }
 }

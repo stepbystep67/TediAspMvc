@@ -9,10 +9,17 @@ namespace HelloWorldMvc.Controllers
 {
     public class PersonController : Controller
     {
+        public static List<string> Personlist { get; protected set; } = new List<string>()
+        {
+            "pierre",
+            "paul",
+            "jacques",
+        };
+
         // GET: Person
         public ActionResult Index()
         {
-            ViewData["staffMembers"] = PersonManager.Personlist;
+            ViewData["staffMembers"] = Personlist;
 
             return View();
         }
@@ -20,7 +27,7 @@ namespace HelloWorldMvc.Controllers
         // GET: Welcome/Team
         public ActionResult Browse()
         {
-            ViewBag.staffMembers = PersonManager.Personlist;
+            ViewBag.staffMembers = Personlist;
 
             return View();
         }
@@ -34,7 +41,7 @@ namespace HelloWorldMvc.Controllers
             }
 
             ViewData["person"] = id;
-            ViewBag.isMember = PersonManager.Personlist.Contains(id);
+            ViewBag.isMember = Personlist.Contains(id);
 
             return View();
         }

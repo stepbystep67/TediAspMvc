@@ -12,9 +12,7 @@ namespace HelloWorldMvc.Tests
     {
         Person person1 = new Person(1, "Prénom", "Emploi");
         Person person2 = new Person(2, "Prénom2", "Emploi2");
-
-        List<Person> personList;
-
+        
         [TestMethod]
         public void Test_DataPerson()
         {
@@ -74,22 +72,24 @@ namespace HelloWorldMvc.Tests
         [TestMethod]
         public void Test_ValidManager()
         {
-            personList = PersonManager.DefaultPersonList;
-
-            foreach (Person p in personList)
+            PersonManager personManager = new PersonManager();
+            
+            foreach (Person p in PersonManager.DefaultPersonList)
             {
                 Assert.IsTrue(p.IsValid(), (p.Id + " " + p.Name));
                 Assert.IsTrue(p.IsRegistered(), (p.Id + " " + p.Name));
             }
 
-            Person p1 = PersonManager.Search(1);
+            Person p1 = personManager.Search(1);
             Assert.AreEqual(p1.Name, "Didier");
 
-            Person p2 = PersonManager.Search("Mickaël");
+            Person p2 = personManager.Search("Mickaël");
             Assert.AreEqual(p2.Id, 4);
 
-            Person p3 = PersonManager.Search(person2);
+            Person p3 = personManager.Search(person2);
             Assert.AreEqual(p3.Id, 2);
+
+            //Assert.IsTrue(false, personManager.BinPath);
             
         }
     }
