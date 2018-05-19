@@ -9,11 +9,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
+    <title>Delete</title>
 </head>
 <body>
+    <h1>Membre #@Model.Id</h1>
     <div>
-        <h1>Membre #@Model.Id</h1>
+        <h4>Êtes vous certain de vouloir supprimer ce membre ?</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
@@ -33,10 +34,15 @@
             </dd>
     
         </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Supprimer le membre" class="btn btn-default" /> |
+                @Html.ActionLink("Retour à la liste", "Index")
+            </div>
+        }
     </div>
-    <p>
-        @Html.ActionLink("Editer", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Retour à la liste", "Index")
-    </p>
 </body>
 </html>

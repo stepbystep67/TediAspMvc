@@ -10,12 +10,12 @@ using System.IO;
 
 namespace HelloWorldMvc.Models
 {
-    public class PersonManager
+    public class PersonManager_old
     {
         
-        public static string DefaultFileBin = "App_Data/PersonManager.bin";
+        public static string teamMembersBin = "App_Data/PersonManager.bin";
 
-        public static string DefaultFileXml = "App_Data/PersonManager.xml";
+        public static string teamMembersXml = "App_Data/PersonManager.xml";
         
         public static List<string> Personlist { get; protected set; } = new List<string>()
         {
@@ -24,7 +24,7 @@ namespace HelloWorldMvc.Models
             "jacques",
         };
 
-        public static List<Person> DefaultPersonList { get; protected set; } = new List<Person>()
+        public static List<Person> TeamMembers { get; protected set; } = new List<Person>()
         {
             new Person(1, "Didier", "Responsable de formation"),
             new Person(2, "Sophie", "Formatrice"),
@@ -32,54 +32,16 @@ namespace HelloWorldMvc.Models
             new Person(4, "Mickaël", "Formateur"),
         };
 
-
-        string fileName;
-
-        string binPath;
-
-        string xmlPath;
-
-        bool binExists;
-
-        bool xmlExists;
-
-        public List<Person> personList;
-
-        public PersonManager() : this(DefaultFileBin)
+        public static Person Search(int id)
         {
-            
-        }
-
-        public PersonManager(string _file)
-        {
-            if(HttpContext.Current != null)
-            {
-                fileName = HttpContext.Current.Server.MapPath(DefaultFileXml);
-            }
-            else
-            {
-                fileName = _file;
-            }
-
-            binPath = fileName + ".bin";
-            xmlPath = fileName + ".xml";
-
-            binExists = File.Exists(binPath);
-            xmlExists = File.Exists(xmlPath);
-
-            personList = DefaultPersonList;
-        }
-        
-        public Person Search(int id)
-        {
-            Person member = DefaultPersonList.FirstOrDefault(item => item.Id == id);
+            Person member = TeamMembers.FirstOrDefault(item => item.Id == id);
 
             return (member != default(Person)) ? member : new Person();
         }
 
         public static Person Search(string name)
         {
-            Person member = DefaultPersonList.FirstOrDefault(item => item.Name.ToLower() == name.ToLower());
+            Person member = TeamMembers.FirstOrDefault(item => item.Name.ToLower() == name.ToLower());
 
             return (member != default(Person)) ? member : new Person();
         }
@@ -91,7 +53,7 @@ namespace HelloWorldMvc.Models
 
         public static List<Person> SearchJob(string job)
         {
-            return DefaultPersonList.FindAll(item => item.Job.ToLower() == job.ToLower());
+            return TeamMembers.FindAll(item => item.Job.ToLower() == job.ToLower());
         }
 
 
@@ -99,8 +61,8 @@ namespace HelloWorldMvc.Models
         {
             
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(HttpContext.Current.Server.MapPath(DefaultFileBin), FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, DefaultPersonList);
+            Stream stream = new FileStream(HttpContext.Current.Server.MapPath(teamMembersBin), FileMode.Create, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, TeamMembers);
             stream.Close();
             SaveXml();
         }
@@ -109,15 +71,15 @@ namespace HelloWorldMvc.Models
         {
             try
             {
-                if(File.Exists(HttpContext.Current.Server.MapPath(DefaultFileBin)))
+                if(File.Exists(HttpContext.Current.Server.MapPath(teamMembersBin)))
                 {
                     IFormatter formatter = new BinaryFormatter();
-                    Stream stream = new FileStream(HttpContext.Current.Server.MapPath(DefaultFileBin), FileMode.Open, FileAccess.Read, FileShare.Read);
+                    Stream stream = new FileStream(HttpContext.Current.Server.MapPath(teamMembersBin), FileMode.Open, FileAccess.Read, FileShare.Read);
                     List<Person> loaded = formatter.Deserialize(stream) as List<Person>;
                     stream.Close();
                     if(loaded != null)
                     {
-                        DefaultPersonList = loaded;
+                        TeamMembers = loaded;
                     }
                 }
             }
@@ -131,9 +93,9 @@ namespace HelloWorldMvc.Models
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
 
-            using (StreamWriter writer = new StreamWriter(HttpContext.Current.Server.MapPath(DefaultFileXml)))
+            using (StreamWriter writer = new StreamWriter(HttpContext.Current.Server.MapPath(teamMembersXml)))
             {
-                serializer.Serialize(writer, DefaultPersonList);
+                serializer.Serialize(writer, TeamMembers);
             }
         }
 
@@ -141,17 +103,17 @@ namespace HelloWorldMvc.Models
         {
             try
             {
-                if(File.Exists(HttpContext.Current.Server.MapPath(DefaultFileXml)))
+                if(File.Exists(HttpContext.Current.Server.MapPath(teamMembersXml)))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
 
-                    using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(DefaultFileXml)))
+                    using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(teamMembersXml)))
                     {
                         List<Person> loaded = serializer.Deserialize(reader) as List<Person>;
 
                         if (loaded != null)
                         {
-                            DefaultPersonList = loaded;
+                            TeamMembers = loaded;
                         }
                     }
                 }

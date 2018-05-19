@@ -5,6 +5,7 @@ using System.Web;
 
 namespace HelloWorldMvc.Models
 {
+    [Serializable]
     public class Person
     {
         
@@ -12,17 +13,31 @@ namespace HelloWorldMvc.Models
 
         public string Name { get; set; }
 
+        public string Job { get; set; }
+
 
         public Person()
         {
             Id = 0;
             Name = "Anonyme";
+            Job = "";
         }
 
-        public Person(int _id, string _name)
+        public Person(int _id, string _firstname, string _job)
         {
             Id = _id;
-            Name = _name;
+            Name = _firstname;
+            Job = _job;
+        }
+
+        public bool IsValid()
+        {
+            return (!String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Job));
+        }
+
+        public bool IsRegistered()
+        {
+            return (IsValid() && (Id > 0));
         }
     }
 }

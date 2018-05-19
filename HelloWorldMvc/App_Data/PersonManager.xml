@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPerson xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Person>
+    <Id>1</Id>
+    <Name>Didier</Name>
+    <Job>Responsable de formation</Job>
+  </Person>
+  <Person>
+    <Id>2</Id>
+    <Name>Sophie</Name>
+    <Job>Formatrice</Job>
+  </Person>
+  <Person>
+    <Id>3</Id>
+    <Name>Franck</Name>
+    <Job>Formateur</Job>
+  </Person>
+  <Person>
+    <Id>4</Id>
+    <Name>Mickaël</Name>
+    <Job>Formateur</Job>
+  </Person>
+</ArrayOfPerson>
