@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Person/@ViewData["person"]</title>
+</head>
+<body>
+    <h1>Membre de l'équipe</h1>
+
+    @{
+        if (@ViewBag.isMember)
+        {
+            <p>
+                @ViewData["person"].ToString() fait partie de la liste des personnes autorisées.
+            </p>
+            <p>
+                <a href="/team">Voir le Staff TEDI</a>
+            </p>
+        }
+        else
+        {
+            <p>
+                @ViewData["person"].ToString() est un imposteur !
+            </p>
+            <p>
+                <a href="/person">Retour à la liste</a>
+            </p>
+        }
+    }
+
+
+</body>
+</html>

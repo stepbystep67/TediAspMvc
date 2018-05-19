@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+    List<string> staff = (List<string>)ViewData["staffMembers"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Personnes</title>
+</head>
+<body>
+    <h1>Liste de personnes</h1>
+    
+    <ul>
+
+    @{ 
+        foreach(string person in staff)
+        {
+            <li>@person.ToUpper()</li>
+        }
+    }
+
+    </ul>
+
+    <p>
+        <a href="/person/browse">Parcourir la liste autrement...</a>
+    </p>
+
+
+
+</body>
+</html>

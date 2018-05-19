@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Personnes</title>
+</head>
+<body>
+    <h1>Liste de personnes autorisées</h1>
+    <ul>
+
+    @{ 
+        foreach(string person in ViewBag.staffMembers)
+        {
+            <li><a href="/person/details/@person">@person.ToUpper()</a></li>
+        }
+    }
+
+    </ul>
+
+</body>
+</html>
