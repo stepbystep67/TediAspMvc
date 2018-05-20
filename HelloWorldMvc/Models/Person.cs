@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using HelloWorldMvc.Tools;
 
 namespace HelloWorldMvc.Models
 {
     [Serializable]
-    public class Person
+    public class Person : AppDataModel
     {
-        
-        public int Id { get; set; }
-
-        public string Name { get; set; }
 
         public string Job { get; set; }
 
@@ -30,14 +27,10 @@ namespace HelloWorldMvc.Models
             Job = _job;
         }
 
-        public bool IsValid()
+        public override bool IsValid()
         {
-            return (!String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Job));
+            return (base.IsValid() && !String.IsNullOrEmpty(Job));
         }
 
-        public bool IsRegistered()
-        {
-            return (IsValid() && (Id > 0));
-        }
     }
 }

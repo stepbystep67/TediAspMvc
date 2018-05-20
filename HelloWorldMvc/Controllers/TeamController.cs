@@ -14,14 +14,18 @@ namespace HelloWorldMvc.Controllers
 
         public TeamController()
         {
-            personManager = new PersonManager("TeamManager");
-            personManager.Load();
+            if(null == personManager)
+            {
+                personManager = new PersonManager("TeamManager");
+                personManager.Load();
+            }
+            
         }
 
         // GET: Team
         public ActionResult Index()
         {
-            return View(personManager.PersonList);
+            return View(personManager.Items);
         }
 
         // GET: Team/Details/{id}
@@ -53,7 +57,7 @@ namespace HelloWorldMvc.Controllers
             if (formResult.IsValid())
             {
                 formResult.Id = (PersonManager.DefaultPersonList.Max(p => p.Id) + 1);
-                personManager.PersonList.Add(formResult);
+                personManager.Items.Add(formResult);
                 personManager.Save();
                 return RedirectToAction("Index");
             }
@@ -102,8 +106,11 @@ namespace HelloWorldMvc.Controllers
 
             if (person.IsRegistered())
             {
-                personManager.PersonList.Remove(person);
-                personManager.Save();
+                if (personManager.Items.Remove(person))
+                {
+                    personManager.Save();
+                }
+
                 return RedirectToAction("Index");
             }
 

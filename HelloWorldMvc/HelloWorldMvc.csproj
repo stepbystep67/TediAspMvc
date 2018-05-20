@@ -101,10 +101,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonManager_old.cs" />
+    <Compile Include="Tools\AppDataModelManager.cs" />
     <Compile Include="Models\PersonManager.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\AppDataManager.cs" />
+    <Compile Include="Tools\AppDataModel.cs" />
+    <Compile Include="Tools\AppDataSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
