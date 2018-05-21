@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMvc", "HelloWorld
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMvc.Tests", "HelloWorldMvc.Tests\HelloWorldMvc.Tests.csproj", "{37AE65FF-0E2A-4018-9668-556D0880E2A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CC697FB5-FE3A-4EAC-9773-9961DDD2F071}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{A7C2FA81-B9ED-4F2A-96DF-2BD0E93C5373}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37AE65FF-0E2A-4018-9668-556D0880E2A3} = {CC697FB5-FE3A-4EAC-9773-9961DDD2F071}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB98967E-C583-429E-B1EB-0DBFE90E0ACD}
