@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2043
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMvc", "HelloWorldMvc\HelloWorldMvc.csproj", "{1A5FF901-5600-4BD9-9DB4-C8ABB599983A}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CC697FB5-FE3A-4EAC-9773-9961DDD2F071}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{A7C2FA81-B9ED-4F2A-96DF-2BD0E93C5373}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "..\Hello-World-MVC-\HelloWorld\HelloWorld.csproj", "{14D490ED-8FC2-4481-9575-B975B45862D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{37AE65FF-0E2A-4018-9668-556D0880E2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37AE65FF-0E2A-4018-9668-556D0880E2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37AE65FF-0E2A-4018-9668-556D0880E2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D490ED-8FC2-4481-9575-B975B45862D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D490ED-8FC2-4481-9575-B975B45862D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D490ED-8FC2-4481-9575-B975B45862D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D490ED-8FC2-4481-9575-B975B45862D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -33,6 +39,6 @@ Global
 		{37AE65FF-0E2A-4018-9668-556D0880E2A3} = {CC697FB5-FE3A-4EAC-9773-9961DDD2F071}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EB98967E-C583-429E-B1EB-0DBFE90E0ACD}
+		SolutionGuid = {D6218B36-C10F-4AC0-95B8-DD18CD777F4F}
 	EndGlobalSection
 EndGlobal
